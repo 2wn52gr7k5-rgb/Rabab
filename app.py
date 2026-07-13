@@ -13,7 +13,6 @@ IMAGE_DATABASE_DIR = "chart_database"
 
 def calculate_similarity(img1_path, img2_path):
     """حساب نسبة الشبه بين صورتين باستخدام خوارزمية ORB"""
-    # قراءة الصور مع تفعيل إجبار القراءة لتفادي تعليق السيرفر
     img1 = cv2.imread(img1_path, cv2.IMREAD_GRAYSCALE)
     img2 = cv2.imread(img2_path, cv2.IMREAD_GRAYSCALE)
     
@@ -53,12 +52,11 @@ if uploaded_file is not None:
         else:
             all_results = []
             
-            # جلب قائمة الصور وعمل تحديث حقيقي للمسارات في كل ضغطة زر
+            # جلب الصور وتحديث المسارات في كل ضغطة بشكل مستقل
             files_list = [f for f in os.listdir(IMAGE_DATABASE_DIR) if f.lower().endswith(('.png', '.jpg', '.jpeg', '.webp'))]
             
             for file_name in files_list:
                 db_img_path = os.path.join(IMAGE_DATABASE_DIR, file_name)
-                # حساب النسبة بشكل مستقل لكل صورة
                 score = calculate_similarity(temp_uploaded_path, db_img_path)
                 all_results.append({"file_name": file_name, "score": score, "path": db_img_path})
             
